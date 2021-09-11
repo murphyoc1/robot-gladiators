@@ -87,28 +87,31 @@ var startGame = function() {
     // reset enemyHealth before starting new fight
     enemyHealth = 50;
 
-    // use debugger to pause script from running and check what's going on at that moment in the code
-    // debugger;
-
     // pass the pickedEnemyName variable's value into the fight function, where it will assume the value of the enemyName parameter
     fight(pickedEnemyName);
-  }
-  // if player isn't alive, stop the game
-  else {
-    window.alert('You have lost your robot in battle! Game Over!');
-    break;
-  }
-  fight(pickedEnemyName);
-  if (playerHealth > 0 && i < enemyNames.length - 1) {
-    var storeConfirm = window.confirm("The fight is over, visit the store")
-    if (storeConfirm) {
-      shop();
+ 
+      // if player is still alive and we're not at the last enemy in the array
+      if (playerHealth > 0 && i < enemyNames.length - 1) {
+        // ask if player wants to use the store before next round
+        var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
+      
+        // if yes, take them to the store() function
+        if (storeConfirm) {
+          shop();
+        }
+      }
+    }
+    // if player is not alive, break out of the loop and let endGame function run
+    else {
+      window.alert("You have lost your robot in battle! Game Over!");
+      break;
     }
   }
-  startGame();
+
+  // after loop ends, we are either out of playerHealth or enemies to fight, so run the endGame function
   endGame();
-}
 };
+
 
 // function to end entire game
 var endGame = function() {
@@ -126,7 +129,7 @@ var endGame = function() {
     else {
       window.alert("Thank you for playing Robot Gladiators! Come back soon!")
     }
-}
+};
 
 var shop = function() {
   var shopOptionPrompt = window.prompt ("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop?")
